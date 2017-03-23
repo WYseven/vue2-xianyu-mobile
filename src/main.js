@@ -3,6 +3,12 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+var infiniteScroll =  require('vue-infinite-scroll');
+//无线滚动插件
+Vue.use(infiniteScroll)
+
+import VueLazyload from 'vue-lazyload'
+Vue.use(VueLazyload)
 
 Vue.config.productionTip = false
 
