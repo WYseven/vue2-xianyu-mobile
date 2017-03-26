@@ -291,7 +291,9 @@
 						_this.loding = true;
 						//模拟数据
 							setTimeout(()=>{
-								_this.list.push(c++);
+								for( var i = 0; i < 5; i++ ){
+									_this.list.push(c++);
+								}
 								_this.$nextTick(function (){
 									scroll.refresh();
 									s = content.offsetHeight;
@@ -300,7 +302,7 @@
 									_this.loding = false;	
 								});
 
-							},500);
+							},2000);
 						
 					}
 				}
