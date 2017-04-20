@@ -1,4 +1,4 @@
-# vue2-xianyu-mobile
+# vue2-xianyu
 
 > A Vue.js project
 

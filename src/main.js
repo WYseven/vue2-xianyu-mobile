@@ -3,19 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-var infiniteScroll =  require('vue-infinite-scroll');
-//无线滚动插件
-Vue.use(infiniteScroll)
 
-import MintUI from 'mint-ui'
-import 'mint-ui/lib/style.css'
+/* 移动端设置js */
+require('./libraries/mobile')
 
-Vue.use(MintUI)
+/* 加载css文件 */
 
-import VueLazyload from 'vue-lazyload'
-Vue.use(VueLazyload, {
-  loading: '/static/images/loading.gif'
-})
+require('./assets/css/app.css')
 
 Vue.config.productionTip = false
 
