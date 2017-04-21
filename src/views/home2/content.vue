@@ -4,10 +4,8 @@
       <div class="content">
         <div class="loading" v-if="loading">loading...</div>
         <div class="banner">
-          <ul class="banner-imgList">
-            <li><img src="../../assets/images/banner1.png"></li>
-            <li><img src="../../assets/images/banner1.png"></li>
-          </ul>
+            <slider :pages="someList" :sliderinit="sliderinit" @slide='slide'>
+            </slider>
           <p class="banner-dot">
             <a href="javascript:;"></a>
             <a href="javascript:;"></a>
@@ -17,128 +15,29 @@
         </div>
         <!--topic专题-->
         <div class="topic clearfix">
-          <dl class="topic-item">
+          <dl class="topic-item" v-for="item in data.topicData">
             <dd>
-              <h3 class="topic-heading">闲鱼精选<span class="topic-hot"></span></h3>
-              <p class="topic-describe">这里有好东西</p>
+              <h3 class="topic-heading">{{ item.title }}<span class="topic-hot"></span></h3>
+              <p class="topic-describe">{{ item.dec }}</p>
             </dd>
             <dt class="topic-img">
               <a href="javascript:;">
-                <img src="../../assets/images/topic1.png" />
-              </a>
-            </dt>
-          </dl>
-          <dl class="topic-item">
-            <dd>
-              <h3 class="topic-heading">拍卖</h3>
-              <p class="topic-describe">一元起拍捡漏</p>
-            </dd>
-            <dt class="topic-img">
-              <a href="javascript:;">
-                <img src="../../assets/images/topic2.png" />
-              </a>
-            </dt>
-          </dl>
-          <dl class="topic-item">
-            <dd>
-              <h3 class="topic-heading">同城</h3>
-              <p class="topic-describe">选闲置更靠谱</p>
-            </dd>
-            <dt class="topic-img">
-              <a href="javascript:;">
-                <img src="../../assets/images/topic3.png" />
-              </a>
-            </dt>
-          </dl>
-          <dl class="topic-item">
-            <dd>
-              <h3 class="topic-heading">我要租房</h3>
-              <p class="topic-describe">3分钟租到房</p>
-            </dd>
-            <dt class="topic-img">
-              <a href="javascript:;">
-                <img src="../../assets/images/topic4.png" />
+                <img v-lazy="item.imgUrl" />
               </a>
             </dt>
           </dl>
         </div>
         <!--product产品专栏部分-->
         <ul class="product clearfix">
-          <li class="product-list clearfix">
+          <li class="product-list clearfix" v-for="item in data.productData">
             <dl class="product-item clearfix">
               <dd class="product-describe">
-                <h3 class="product-heading">键设党</h3>
-                <p class="product-description">32个新宝贝入塘</p>
+                <h3 class="product-heading">{{item.title}}</h3>
+                <p class="product-description">{{item.dec}}</p>
               </dd>
               <dt class="product-img">
                 <a href="javascript:;">
-                  <img src="../../assets/images/project1.png" />
-                </a>
-              </dt>
-            </dl>
-          </li>
-          <li class="product-list clearfix">
-            <dl class="product-item clearfix">
-              <dd class="product-describe">
-                <h3 class="product-heading">法院卖货</h3>
-                <p class="product-description">iphone千元起拍</p>
-              </dd>
-              <dt class="product-img">
-                <a href="javascript:;">
-                  <img src="../../assets/images/project2.png" />
-                </a>
-              </dt>
-            </dl>
-          </li>
-          <li class="product-list clearfix">
-            <dl class="product-item clearfix">
-              <dd class="product-describe">
-                <h3 class="product-heading">国粉PY部落</h3>
-                <p class="product-description">444个新宝贝入塘</p>
-              </dd>
-              <dt class="product-img">
-                <a href="javascript:;">
-                  <img src="../../assets/images/project3.png" />
-                </a>
-              </dt>
-            </dl>
-          </li>
-          <li class="product-list clearfix">
-            <dl class="product-item clearfix">
-              <dd class="product-describe">
-                <h3 class="product-heading">闲鱼奇货</h3>
-                <p class="product-description">每日上新20件，件件新奇</p>
-              </dd>
-              <dt class="product-img">
-                <a href="javascript:;">
-                  <img src="../../assets/images/project4.png" />
-                  <span class="product-hot"></span>
-                </a>
-              </dt>
-            </dl>
-          </li>
-          <li class="product-list clearfix">
-            <dl class="product-item clearfix">
-              <dd class="product-describe">
-                <h3 class="product-heading">[技能]做手工</h3>
-                <p class="product-description">用手艺赚钱，点赞！</p>
-              </dd>
-              <dt class="product-img">
-                <a href="javascript:;">
-                  <img src="../../assets/images/project5.png" />
-                </a>
-              </dt>
-            </dl>
-          </li>
-          <li class="product-list clearfix">
-            <dl class="product-item clearfix">
-              <dd class="product-describe">
-                <h3 class="product-heading">实拍穿搭</h3>
-                <p class="product-description">今日实拍已上新</p>
-              </dd>
-              <dt class="product-img">
-                <a href="javascript:;">
-                  <img src="../../assets/images/project6.png" />
+                  <img v-lazy="item.imgUrl" />
                 </a>
               </dt>
             </dl>
@@ -162,7 +61,7 @@
           </div>
           <div class="detail-list">
             <!--没有回复内容的模块-->
-            <detail-item v-for="item in detailData" :item="item"></detail-item>
+            <detail-item v-for="item in data.detailData" :item="item"></detail-item>
           </div>
         </div>
         <div class="floading" v-if="reloading">loading...</div>
@@ -279,70 +178,122 @@
   import BScroll from 'better-scroll'
   import DetailData from 'lib/detailData'
 
-  let {detailData, getData} = DetailData
+  import slider from '@/components/slider'
+
+  let {getData, loading, d} = DetailData
+
+  console.log(d)
 
   export default {
     name: 'search',
     data () {
       return {
-        loading: false,
-        detailData: [],
-        reloading: false
+        loading: true,
+        data: d,
+        reloading: false,
+        someList:[
+          {
+            title: 'slide1',
+            style:{
+              'background': 'url(/static/images/banner1.png)'
+            }
+          },
+          {
+            title: 'slide2',
+            style:{
+              'background': 'url(/static/images/banner1.png)',
+            }
+          },
+          {
+            title: 'slide3',
+            style: {
+              'background': 'url(/static/images/banner1.png)',
+            }
+          }
+        ],
+        sliderinit: {
+          currentPage: 0,
+          thresholdTime: 500, // 滑动时间阈值判定距离
+          thresholdDistance: 100, // 滑动距离阈值
+          // slideSpeed:1000, // 滑动速度
+          loop: true, // 无限循环
+          autoplay: 3000// 自动播放:时间[ms]
+        }
       }
     },
     components: {
-      'detail-item': Detail
+      'detail-item': Detail,
+      slider
     },
     methods: {
-      getData () {
-        getData().then((data) => {
-          this.detailData.push(...data)
+      slide () {
+
+      },
+      pullLodingMethod () {
+        loading().then((data) => {
+          this.data = data
+          console.log(data)
           this.nextTick()
         })
-
+      },
+      getData () {
+        getData().then((data) => {
+          this.data.detailData.push(...data)
+          this.nextTick()
+        })
       },
       nextTick () {
         var me = this
 
         me.$nextTick(() => {
+          var content = document.getElementsByClassName('content')[0]
           setTimeout(function () {
-            if(me.myScroll){
-              me.myScroll.refresh();
+            if (me.myScroll) {
+              me.myScroll.refresh()
               me.floading = false
-              me.reloading  = false;
-            }else{
-
+              me.reloading = false
+              me.pullLoading = false
+              content.style.marginTop = '-5.65217391rem';
+            } else {
               var wrapper = document.getElementById('wrapper')
               me.myScroll = new BScroll(wrapper, {
                 startX: 0,
                 startY: 0,
                 click: true,
-                probeType: 2
+                probeType: 3
               })
-              var content = document.getElementsByClassName('content')[0]
+              var y = 0
+
+              content.addEventListener('touchend', function () {
+                if (me.pullLoadingStart && y > 100) {
+                  setTimeout(function () {
+                    content.style.marginTop = 0
+                  }, 30)
+                  me.pullLodingMethod()
+                  me.pullLoading = true
+                }
+              })
 
               me.myScroll.on('scroll', (pos) => {
-                if (pos.y > 50) {
-                  //
+                y = pos.y
+                if (pos.y > 100) {
+                  me.pullLoadingStart = true
                 }
 
                 if (!me.floading && pos.y < 0 && (-1 * pos.y + wrapper.offsetHeight) - content.offsetHeight > 30) {
                   me.getData()
                   me.floading = true
-                  me.reloading  = true;
-                  me.myScroll.scrollTo(0,pos.y + -30);
+                  me.reloading = true
                 }
               })
             }
-
           })
-
         })
       }
     },
     mounted () {
       // 给数据
-      this.detailData = detailData
+      this.data = d
       this.nextTick()
     }
   }
@@ -356,7 +307,7 @@
     bottom: 6.39130435rem;
   }
   .content {
-
+    margin-top: -5.65217391rem;
   }
   .loading {
     width: 100%;

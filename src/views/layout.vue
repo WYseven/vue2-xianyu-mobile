@@ -7,9 +7,9 @@
 </template>
 
 <script>
-  import Search from 'views/home/search'
-  import Footer from 'views/home/footer'
-  import Content from 'views/home/content'
+  import Search from 'views/home2/search'
+  import Footer from 'views/home2/footer'
+  import Content from 'views/home2/content'
 
   export default {
     name: 'layout',

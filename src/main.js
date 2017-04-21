@@ -9,6 +9,14 @@ import 'mint-ui/lib/style.css'
 
 Vue.use(MintUI)
 
+import VueLazyload from 'vue-lazyload'
+
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  loading: '/static/loading.gif',
+  attempt: 1
+})
+
 /* import { Loadmore } from 'mint-ui';
  import 'mint-ui/lib/style.css'
 

@@ -6,7 +6,7 @@
         <dl class="detail-username">
           <dt class="detail-usernameImg">
             <a href="javascript:;">
-              <img :src="item.portraitImg" />
+              <img v-lazy="item.portraitImg" />
             </a>
           </dt>
           <dd class="detail-userdescribe">
@@ -27,7 +27,7 @@
           <img src="../../assets/images/firstlist3.png" alt="">
           <img
             v-for="src,index in item.showImages"
-            :src="src"
+            v-lazy="src"
           />
         </dt>
         <dd class="detail-particularDescribe">
