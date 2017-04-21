@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <mt-loadmore :top-method="loadTop" :distanceIndex="0" :bottom-method="loadBottom" :bottom-all-loaded="allLoaded" ref="loadmore">
+
       <div class="content">
         <div class="loading" v-if="loading">loading...</div>
         <div class="banner">
@@ -261,16 +261,14 @@
           </dl>
         </div>
         <div class="detail-list">-->
-        <!--没有回复内容的模块-->
-        <!--<detail-item></detail-item>
-        <detail-item></detail-item>
-        <detail-item></detail-item>
-        <detail-item></detail-item>
-        <detail-item></detail-item>
-      </div>-->
+          <!--没有回复内容的模块-->
+          <!--<detail-item></detail-item>
+          <detail-item></detail-item>
+          <detail-item></detail-item>
+          <detail-item></detail-item>
+          <detail-item></detail-item>
+        </div>-->
       </div>
-    </mt-loadmore>
-
 
   </div>
 
@@ -289,8 +287,7 @@
       return {
         loading: false,
         detailData: [],
-        reloading: false,
-        allLoaded: true
+        reloading: false
       }
     },
     components: {
@@ -300,38 +297,53 @@
       getData () {
         getData().then((data) => {
           this.detailData.push(...data)
+          this.nextTick()
         })
 
       },
-      loadTop () {
-        console.log(123)
-      },
-      loadBottom () {
+      nextTick () {
+        var me = this
 
+        me.$nextTick(() => {
+          setTimeout(function () {
+            if(me.myScroll){
+              me.myScroll.refresh();
+              me.floading = false
+              me.reloading  = false;
+            }else{
+
+              var wrapper = document.getElementById('wrapper')
+              me.myScroll = new BScroll(wrapper, {
+                startX: 0,
+                startY: 0,
+                click: true,
+                probeType: 2
+              })
+              var content = document.getElementsByClassName('content')[0]
+
+              me.myScroll.on('scroll', (pos) => {
+                if (pos.y > 50) {
+                  //
+                }
+
+                if (!me.floading && pos.y < 0 && (-1 * pos.y + wrapper.offsetHeight) - content.offsetHeight > 30) {
+                  me.getData()
+                  me.floading = true
+                  me.reloading  = true;
+                  me.myScroll.scrollTo(0,pos.y + -30);
+                }
+              })
+            }
+
+          })
+
+        })
       }
     },
     mounted () {
-      let me = this;
       // 给数据
       this.detailData = detailData
-      me.$nextTick(() => {
-        setTimeout(function () {
-          if(me.myScroll){
-            me.myScroll.refresh();
-          }else{
-            console.log(me.$refs);
-            var wrapper = document.getElementById('wrapper')
-            me.myScroll = new BScroll(wrapper, {
-              startX: 0,
-              startY: 0,
-              click: true,
-              probeType: 2
-            })
-          }
-
-        })
-
-      })
+      this.nextTick()
     }
   }
 </script>

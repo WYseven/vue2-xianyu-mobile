@@ -51,7 +51,7 @@ export default {
       }
       setTimeout(function () {
         resolove(data)
-      }, 500)
+      }, 1500)
     })
   }
 }
