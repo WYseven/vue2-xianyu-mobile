@@ -162,7 +162,7 @@
           </div>
           <div class="detail-list">
             <!--没有回复内容的模块-->
-            <detail-item v-for="item in detailData" :item="item"></detail-item>
+            <detail-item v-for="item,index in detailData" :key="index" :item="item"></detail-item>
           </div>
         </div>
         <div class="floading" v-if="reloading">loading...</div>
@@ -279,7 +279,7 @@
 <script>
   import Detail from './detailItem'
   import BScroll from 'better-scroll'
-  import DetailData from 'lib/detailData'
+  import DetailData from 'libraries/detailData'
 
   let {detailData, getData} = DetailData
 
@@ -319,7 +319,6 @@
           if(me.myScroll){
             me.myScroll.refresh();
           }else{
-            console.log(me.$refs);
             var wrapper = document.getElementById('wrapper')
             me.myScroll = new BScroll(wrapper, {
               startX: 0,
@@ -327,6 +326,13 @@
               click: true,
               probeType: 2
             })
+            me.scroll.on('touchend', (pos) => {
+                // 下拉动作
+                if (pos.y > 50) {
+                  console.log(1234)
+                }
+              })
+            
           }
 
         })
@@ -342,9 +348,6 @@
     top: 5.65217391rem;/* 5.65217391rem; */
     right: 0;
     bottom: 6.39130435rem;
-  }
-  .content {
-
   }
   .loading {
     width: 100%;
